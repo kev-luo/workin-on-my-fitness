@@ -1,4 +1,5 @@
 let mongoose = require("mongoose");
+const Workout = require("../models/Workout");
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", {
   useNewUrlParser: true,
@@ -123,4 +124,15 @@ let workoutSeed = [
   }
 ];
 
-module.exports = workoutSeed;
+Workout.deleteMany({})
+.then(() => Workout.collection.insertMany(workoutSeed))
+.then(data => {
+  console.log(data.result.n + " records inserted!");
+  process.exit(0);
+})
+.catch(err => {
+  console.error(err);
+  process.exit(1);
+});
+
+
