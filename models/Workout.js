@@ -5,6 +5,9 @@ const workoutSchema = new Schema({
   day: {
     type: Date,
   },
+  totalDuration: {
+    type: Number
+  },
   exercises: [
     {
       type: {
@@ -34,6 +37,12 @@ const workoutSchema = new Schema({
     }
   ]
 })
+
+workoutSchema.methods.getTotalDuration = function() {
+  this.totalDuration = this.exercises.reduce(function(accum, val) {
+    return accum + val.duration
+  }, 0)
+}
 
 const Workout = mongoose.model("Workout", workoutSchema);
 

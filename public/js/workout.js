@@ -1,24 +1,31 @@
+// gets last workout from db, displays it to page. if none exist display no workout text
 async function initWorkout() {
+  // returns last workout in our db
   const lastWorkout = await API.getLastWorkout();
-  console.log("Last workout:", lastWorkout);
+  // console.log("Last workout:", lastWorkout);
   if (lastWorkout) {
+    // if there is at least one workout in our db then first set the 'continue workout' href to '/exercise?id=' plus the workout id
     document
       .querySelector("a[href='/exercise?']")
       .setAttribute("href", `/exercise?id=${lastWorkout._id}`);
 
+    // workoutSummary contains an object representing the last workout in our db
     const workoutSummary = {
+      // uses toLocaleDateString() to format date
       date: formatDate(lastWorkout.day),
       totalDuration: lastWorkout.totalDuration,
       numExercises: lastWorkout.exercises.length,
+      // uses reduce() to sum up all exercise stats for the last workout. returns an object
       ...tallyExercises(lastWorkout.exercises)
     };
+    console.log(workoutSummary);
 
     renderWorkoutSummary(workoutSummary);
   } else {
     renderNoWorkoutText()
   }
 }
-
+// sum all exercise stats for one workout
 function tallyExercises(exercises) {
   const tallied = exercises.reduce((acc, curr) => {
     if (curr.type === "resistance") {
@@ -43,10 +50,11 @@ function formatDate(date) {
 
   return new Date(date).toLocaleDateString(options);
 }
-
+// displays last workout statistics
 function renderWorkoutSummary(summary) {
   const container = document.querySelector(".workout-stats");
 
+  // maps the argument's keys to formatted statistic descriptions
   const workoutKeyMap = {
     date: "Date",
     totalDuration: "Total Workout Duration",
@@ -61,16 +69,20 @@ function renderWorkoutSummary(summary) {
     const p = document.createElement("p");
     const strong = document.createElement("strong");
 
+    // statistic description
     strong.textContent = workoutKeyMap[key];
+    // displays actual statistic 
     const textNode = document.createTextNode(`: ${summary[key]}`);
 
     p.appendChild(strong);
     p.appendChild(textNode);
 
+    // display statistics on page
     container.appendChild(p);
   });
 }
 
+// displays text if no workouts in db
 function renderNoWorkoutText() {
   const container = document.querySelector(".workout-stats");
   const p = document.createElement("p");
