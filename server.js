@@ -4,9 +4,23 @@ const app = express();
 const path = require('path');
 const mongoose = require('mongoose');
 
+const Workout = require("./models/Workout");
+const workoutSeed = require('./seeders/seed');
+
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", {
   useNewUrlParser: true,
   useFindAndModify: false
+}, () => {
+  Workout.deleteMany({})
+  .then(() => Workout.collection.insertMany(workoutSeed))
+  .then(data => {
+    console.log(data.result.n + " records inserted!");
+    process.exit(0);
+  })
+  .catch(err => {
+    console.error(err);
+    process.exit(1);
+  });
 })
 
 app.use(express.json());
