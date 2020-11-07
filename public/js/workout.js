@@ -93,4 +93,5 @@ function renderNoWorkoutText() {
   container.appendChild(p);
 }
 
+// gets last workout upon loading index page
 initWorkout();
