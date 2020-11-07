@@ -1,6 +1,13 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const path = require('path');
+const mongoose = require('mongoose');
+
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", {
+  useNewUrlParser: true,
+  useFindAndModify: false
+})
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
