@@ -146,7 +146,6 @@ function clearInputs() {
   weightInput.value = "";
 }
 
-
 if (workoutTypeSelect) {
   // calls handleWorkoutTypeChange whenever we change the exercise type
   workoutTypeSelect.addEventListener("change", handleWorkoutTypeChange);

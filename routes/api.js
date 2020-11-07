@@ -9,7 +9,6 @@ router.get('/workouts', async (req, res) => {
       return accum + val.duration;
     }, 0);
   })
-  console.log(workouts);
   res.json(workouts);
 })
 
@@ -21,8 +20,9 @@ router.post('/workouts', (req, res) => {
   
 })
 
-router.get('/workouts/range', (req, res) => {
-  
+router.get('/workouts/range', async (req, res) => {
+  let workouts = await Workout.find({});
+  res.json(workouts);
 })
 
 module.exports = router;

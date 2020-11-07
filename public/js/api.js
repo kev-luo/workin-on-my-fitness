@@ -11,7 +11,7 @@ const API = {
     const json = await res.json();
     return json[json.length - 1];
   },
-
+  // edits a workout in our database by adding an exercise
   async addExercise(data) {
     const id = location.search.split("=")[1];
 
@@ -25,6 +25,7 @@ const API = {
 
     return json;
   },
+  // post request to add new workout to db
   async createWorkout(data = {}) {
     const res = await fetch("/api/workouts", {
       method: "POST",
