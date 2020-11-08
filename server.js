@@ -3,12 +3,25 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const mongoose = require('mongoose');
+// const workoutSeed = require('./seeders/seed');
+// const Workout = require("./models/Workout");
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", {
   useNewUrlParser: true,
   useFindAndModify: false,
   useUnifiedTopology: true
 })
+
+// Workout.deleteMany({})
+// .then(() => Workout.collection.insertMany(workoutSeed))
+// .then(data => {
+//   console.log(data.result.n + " records inserted!");
+//   process.exit(0);
+// })
+// .catch(err => {
+//   console.error(err);
+//   process.exit(1);
+// });
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))

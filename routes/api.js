@@ -12,8 +12,13 @@ router.get('/workouts', async (req, res) => {
   res.json(workouts);
 })
 
-router.put('/workouts', (req, res) => {
-  
+// how to tell if they're adding exercise or completing workout?
+router.put('/workouts/:id', async (req, res) => {
+  let id = req.params.id;
+  let workout = await Workout.findById(id);
+  workout.exercises = [...workout.exercises, req.body];
+  let updatedWorkout = await workout.save();
+  res.json(updatedWorkout);
 })
 
 router.post('/workouts', (req, res) => {
