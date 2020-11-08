@@ -9,8 +9,12 @@ fetch("/api/workouts/range")
   });
 
 
-// API.getWorkoutsInRange()
+async function getStats() {
+  let stats = await API.getWorkoutsInRange()
+  populateChart(stats);
+}
 
+getStats();
 function generatePalette() {
   const arr = [
     "#003f5c",
@@ -205,12 +209,15 @@ function duration(data) {
 }
 // adds each exercise's weight to array and returns that array
 function calculateTotalWeight(data) {
+  console.log(data);
   let total = [];
   data.forEach(workout => {
     workout.exercises.forEach(exercise => {
       total.push(exercise.weight);
     });
   });
+
+
   return total;
 }
 // adds each exercise's name to array and returns that array
@@ -225,3 +232,15 @@ function workoutNames(data) {
   
   return workouts;
 }
+
+function formatDate(date) {
+  const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+  };
+
+  return new Date(date).toLocaleDateString(options);
+}
+

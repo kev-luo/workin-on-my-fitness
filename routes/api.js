@@ -14,7 +14,6 @@ router.get('/workouts', async (req, res) => {
 
 router.post('/workouts', async (req, res) => {
   let workout = await Workout.create({});
-  console.log(req.body);
   res.json(workout);
 })
 
@@ -27,8 +26,10 @@ router.put('/workouts/:id', async (req, res) => {
 })
 
 router.get('/workouts/range', async (req, res) => {
-  let workouts = await Workout.find({});
+  let oldestDate = new Date().setDate(new Date().getDate()-7);
+  let workouts = await Workout.find({day: { $gt: oldestDate }}).sort([['date', -1]]);
   res.json(workouts);
 })
+
 
 module.exports = router;
